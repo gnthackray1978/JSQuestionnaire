@@ -132,10 +132,19 @@ AncUtils.prototype = {
     },
 
     getHost: function () {
-        if (window.location.hostname.indexOf("local") == -1)
-            return 'http://www.gnthackray.net'
+        
+        if (window.location.hostname.indexOf("c9.io") >= 0)
+        {
+            return 'https://c9.io/gnthackray1978/jsquestionnaire/workspace';
+        }
         else
-            return 'http://local.gnthackray.net:666';
+        {
+            if (window.location.hostname.indexOf("local") == -1)
+                return 'http://www.gnthackray.net';
+            else
+                return 'http://local.gnthackray.net:666';
+        }
+            
     },
 
     // gets json set

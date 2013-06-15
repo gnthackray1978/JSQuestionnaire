@@ -1,19 +1,16 @@
-﻿question,answer,category
-2+1,3,addition 
-4+1,5,addition 
-32+6,38,addition 
-5+1,6,addition 
-8+11,19,addition 
-4+8,12,addition 
-3/4,0.75,division
-4/2,2,division
-when was oliver cromwell born,1599,history
-Difference between window.onload and onDocumentReady?,ans1|ans2|ans3|1,javascript
-2+1,3,addition1 
-4+1,5,addition2 
-32+6,38,addition3
-5+1,6,addition4 
-8+11,19,addition5 
-4+8,12,addition6 
-3/4,0.75,division7
-4/2,2,division8
+category,question,answer
+addition ,2+1,3
+addition ,4+1,5
+addition ,G13_EnvironTree_Icon.jpg',38
+addition ,5+1,6
+addition ,8+11,19
+addition ,4+8,12
+addition,G13_EnvironTree_Icon.jpg,1000
+division,41367,0.75
+division,41309,2
+history,when was oliver cromwell born,1599
+javascript,Difference between window.onload and onDocumentReady?,1,ans1,ans2,ans3
+addition1 ,2+1,3
+addition2 ,4+1,5
+addition3,32+6,38
+c# keywords,Name all keywords?,MA,if,then,else,new,abstract,base,virtual,sealed,interface,get,set,private,public,protected
