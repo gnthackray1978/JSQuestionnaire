@@ -1,0 +1,72 @@
+﻿body {
+}
+
+
+#question {
+
+    height: 50px;
+    margin:10px;
+}
+
+#mainbody
+{
+   /* height: 100px;*/
+    
+    
+}
+
+#answer
+{
+   
+  
+    margin:5px;
+}
+#answer-so-far
+{
+   
+  
+    margin:5px;
+}
+
+
+.displayPanel
+{
+    display: block;
+    
+}
+    
+.hidePanel
+{
+    display: none;
+        
+    }
+    
+    
+    
+    
+#title
+{
+    margin-left: 10px;
+    margin-top:10px;
+    margin-bottom: 10px;
+    width: 50%;
+}
+    
+    
+#count
+{
+    margin-top: 10px;
+    width: 45%;
+    text-align: right;
+  
+}
+
+.info-bar {
+    line-height: 50px;
+    margin-left: 30px;
+}
+
+#bottom {
+    position:fixed;
+    bottom: 0;
+}​
