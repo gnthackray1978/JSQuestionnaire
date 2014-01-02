@@ -9,9 +9,15 @@ JS Focus Events, Name all JS Focus Events?, MA, blur, focus
 JS Event, Name all DOM L2 Events, MA, change, reset, submit
 javascript,What does “1″+2+4 evaluate to?,2,7,124,16
 javascript,What about 5 + 4 + “3″?,1,93,543,12
-Solid,What are the solid principles,MA,Single responsibility principle,Open/Close Principle,Interface Segregation Principle,Dependency Injection
+Solid,What are the solid principles,MA,Single responsibility principle,Open/Close Principle,Liskov Substitution Principle,Interface Segregation Principle,Dependency Injection
 Design,What is SRP?,a class should have only a single responsibility
 Design,What is OCP?,software entities should be open for extension but closed for modification
 Design,What is LSP?,objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program
 Design,What is ISP?,many client specific interfaces are better than one general purpose interface
 Design,What is DIP?,one should depend upon abstractions do not depend upon concretions
+Operators, What is this truefalse?true case:false case, ternary operator
+Patterns, Name the 3 types of pattern,MA, Creational, Behavioural, Structural
+Patterns, Name the 7 main creational patterns, MA , Singleton, Factory, Factory Method, Abstract Factory, Builder, Prototype, Object Pool
+Patterns, Name the 11 main Behavioural patterns, MA, Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Momento, Observer, Strategy, Template Method, Visitor, Null Object
+Patterns, Name the 6 main Structural patterns, MA, Adapter, Bridge, Composite, Decorator, Flyweight, Proxy
+AspNet, List the page life cycle,MA,Page request,Start,Initialization,Load,Postback event handling,Rendering,Unload

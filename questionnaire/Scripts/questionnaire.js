@@ -4,23 +4,217 @@
 "use strict";
 
 
+var QView = function () {
+    
+    this.ancUtils = new AncUtils();
+    
+};
 
 
+QView.prototype = {
+    DisplayScore: function(questionScore, overallScore) {        
+        $('#question-score').html(questionScore + '%');
+        
+        if(overallScore!= undefined)
+            $('#perc-correct').html(overallScore + '%');
+    },
+    GetAnswer:function() {
+        return $('#answer-box').val();
+    },
+    DisplayCorrectAnswer: function(answer) {
+        $('#correct-answer').html(answer);
+    },
+    switchtab: function (tabidx,tab1) {
+
+
+        var panels = new Panels();
+
+        if (tabidx == 0) {
+
+            panels.masterShowTab(1);
+
+            $("#answer-block").removeClass("hidePanel").addClass("displayPanel");
+
+            tab1();
+            
+            
+
+        } else {
+
+
+            panels.masterShowTab(2);
+
+            $("#answer-block").removeClass("displayPanel").addClass("hidePanel");
+            
+            tab1();
+         //   this.listtests();
+
+        }
+    },
+    createCatList: function (catList, processSelectFunc, context) {
+        
+        var cats = '';
+        var selectEvents = [];
+        var idx = 0;
+        while (idx < catList.length) {
+            if (catList[idx] !== undefined) {
+                cats += '<a id= "s' + idx + '" href="index.html" data-role="button" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">' + catList[idx] + '</span></span></a>';
+
+                selectEvents.push({ key: 's' + idx, value: catList[idx] });
+            }
+            idx++;
+        }
+        this.ancUtils.addlinks(selectEvents, processSelectFunc, context);
+        
+        $('#categories').html(cats);
+    },
+    updateBoxs: function (currentQuestionState, answer, content,answerBox) {
+        
+
+        // answer = this.questionset[this.currentQuestionIdx].answer.length
+
+
+        //this.questionscore = Math.floor(((100 / originalAnswers.length) * this.currentQuestionState.length));
+
+        //currentQuestionState
+
+        var answersofar = '<\BR>' + 'Progress so far: ' + '<\BR>' + answer.length + '<\BR>';
+
+        var idx = 0;
+        while (idx < currentQuestionState.length) {
+
+            answersofar += currentQuestionState[idx] + ' ';
+
+            idx++;
+        }
+      
+
+
+
+        $('#answer-box').val(answerBox);
+
+        $('#mainbody').html(content);//question box
+        
+
+        $('#answer-so-far').html(answersofar);
+    },
+    displayStandardQuestion: function (question, answer) {
+        
+        $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
+         
+        $("#answer").removeClass("hidePanel").addClass("displayPanel");
+
+        $('#answer-box').val(answer);
+        
+        $('#mainbody').html(question);
+    },    
+    displayMultipleChoice: function (question, constAnswers, selectionIdx) {
+        
+        $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
+        $("#answer").removeClass("displayPanel").addClass("hidePanel");
+
+        //need to check if we have an answer saved for this question 
+        //which should be stored in the form of an index
+        //we can do a simple comparison against that.
+        var idx = 2;
+        var content = '<div id="rqs"><fieldset id = "t1" data-role="controlgroup"><legend>' + question + '</legend>';
+        while (idx <= constAnswers.length) {
+            var chkid = 'radio-choice-' + idx;
+            if (idx == selectionIdx)
+                content += '<input type="radio" name="radio-choice" id="' + chkid + '" value="' + (idx - 1) + '" checked="checked" /><label for="' + chkid + '">' + constAnswers[idx - 1] + '</label>';
+            else
+                content += '<input type="radio" name="radio-choice" id="' + chkid + '" value="' + (idx - 1) + '" /><label for="' + chkid + '">' + constAnswers[idx - 1] + '</label>';
+            idx++;
+        }
+        content += '</fieldset></div>';
+        
+        $('#mainbody').html(content);
+    },
+    displayImageQuestion: function (question, answerSet) {
+        
+        $('#answer-box').val(answerSet);
+        $("#imgPanel").removeClass("hidePanel").addClass("displayPanel");
+        $("#sourceid").attr("src", question);
+        //multi answer   
+    },
+    displayMultiAnswerQuestion: function (question) {             
+        $("#answer").removeClass("hidePanel").addClass("displayPanel");
+        $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");        
+        $('#mainbody').html(question);        
+        //multi answer   
+    },
+    displaySortedMultiAnswerQuestion: function (question) {        
+        $("#answer").removeClass("hidePanel").addClass("displayPanel");
+        $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
+        $('#mainbody').html(question);
+        //multi answer   
+    },
+    updateCurrentQuestionLabel: function(currentQuestion, totalQuestions) {
+        $('#current-question').html(currentQuestion + ' of ' + totalQuestions);        
+    },
+    displayNoQuestion: function() {   
+        $("#answer").removeClass("displayPanel").addClass("hidePanel");
+        $('#mainbody').html('no questions');
+    },
+    updateAnswerSoFar: function(answerSoFar) {   
+        $('#answer-so-far').html(answerSoFar);
+    },
+    setTitle: function(title) {   
+        $('#title').html(title);
+    },
+    bindPrevQuestionEvt:function(callback, context) {
+        
+        $('#next').bind("vclick",
+            $.proxy(
+                function () {
+                    callback(-1);
+                }, context));
+    },
+    
+    bindNextQuestionEvt:function(callback, context) {
+        
+        $('#next').bind("vclick",
+            $.proxy(
+                function () {
+                    callback(1);
+                }, context));
+    }
+
+
+
+
+};
 
 
 var Panels, QryStrUtils, AncUtils;
 
 
-$(document).bind("pageinit", function() {
+$(document).bind("pageinit", function () {
+    
+
+
     var questionnaire = new Questionnaire();
+    
+
+
     questionnaire.init();
 });
 
+
+
+
 var Questionnaire = function () {
 
+    this.view = new QView();
+    
     this.is_keyboard = false;
     this.is_landscape = false;
     this.initial_screen_size = window.innerHeight;
+    this.qryStrUtils = new QryStrUtils();
+    this.ancUtils = new AncUtils();
+
+
+
 
     this.selectedcategory = '';
     this.testcategories = [];
@@ -31,47 +225,85 @@ var Questionnaire = function () {
     this.currentQuestionState = [];
 
 
+    this.isAnswerDisplayed = false;
 
-    this.qryStrUtils = new QryStrUtils();
-    this.ancUtils = new AncUtils();
+
     this.currentQuestionIdx = 0;
     this.score = 0;
+    this.questionscore = 0;
+    
+    this.tests = [];
 
+    this.tests.push('questionnaire/Questions/aspnet.csv');
+    this.tests.push('questionnaire/Questions/c_sharp.csv');
+    this.tests.push('questionnaire/Questions/javascript.csv');
+    this.tests.push('questionnaire/Questions/oop.csv');
+    this.tests.push('questionnaire/Questions/samples.csv');
 
-    if (this.testcategories === '1') {
-
-        //whatever
-    }
+    
 
 
 };
 
 
-
 Questionnaire.prototype = {
-
-
-    writelog: function (message) {
-      //  $('#debug').append(message+'.');
+    writelog: function(message) {
+        //  $('#debug').append(message+'.');
     },
 
-    getColumns: function (row) {
-        
+    getColumns: function(row) {
+
         var cols = [];
 
         var tpSplit = row.split(',');
 
-        $.each(tpSplit, function () {
+        $.each(tpSplit, function() {
             if ($.trim(this) != '') cols.push(String(this));
         });
 
         return cols;
     },
 
-    init: function () {
+    getTestCategories:function(rows, catColIdx) {
+
+      
+        var tp = [];
+        
+        var idx = 1;
+        while (idx < rows.length) {
+
+            var cols = this.getColumns(rows[idx]);
+
+            tp.push(cols[catColIdx]);
+            idx++;
+        }
+
+
+        try {
+            var uniqueNames = [];
+
+
+            $.each(tp, function (i, el) {
+
+
+                if ($.inArray(el, uniqueNames) === -1)
+                    uniqueNames.push(el);
+
+
+            });
+
+            tp = uniqueNames;
+        } catch (e) {
+
+        }
+
+        return tp;
+    },
+
+
+    init: function() {
 
         var that = this;
-
 
 
         //        $('#answer-box').on('focus click tap vclick', function (event) {
@@ -82,86 +314,65 @@ Questionnaire.prototype = {
         //        });
 
 
-        
+        var finished = function(result) {
+            
+            this.testcategories = this.getTestCategories(result.split('\x0A'),0);
 
-        var finished = function (result) {
-            var rows = result.split('\x0A');
-            var idx = 1;
-            while (idx < rows.length) {
-                
-                var cols = this.getColumns(rows[idx]);
-
-                this.testcategories.push(cols[0]);
-                idx++;
-            }
- 
-
-           
-
-            try {
-                var uniqueNames = [];
-
- 
-
-                $.each(this.testcategories, function (i, el) {
-                    
-           
-                    if ($.inArray(el, uniqueNames) === -1)
-                        uniqueNames.push(el);
-                    
-                    
-                });
-
-                this.testcategories = uniqueNames;                
-            } catch(e) {
-                
-            } 
-
-           
             if (this.testcategories.length > 0 && this.testcategories[0] !== undefined) {
-          
+
                 this.processSelect(this.testcategories[0]);
-           
-              //  this.createquestionset();
-                
-            } else {
-                
-            }
-            
-            
+
+                //  this.createquestionset();
+
+            }  
+
+
         };
 
-        var aburl = 'questionnaire/Questions/questions.csv';
 
         $.ajax({
-            url: aburl,
+            url: this.tests[3],
             data: "query=search_terms",
             success: $.proxy(finished, this)
         });
 
-        $('#main').bind("vclick", $.proxy(function () { this.switchtab(0); }, this));
+        $('#main').bind("vclick", $.proxy(function () {
 
-        $('#select').bind("vclick", $.proxy(function () { this.switchtab(1); }, this));
-
-        $('#next').bind("vclick",
-        $.proxy(
-        function () {
-            this.displayQuestion(1);
+            var ithat = this;
+            ithat.view.switchtab(0, function () {
+                ithat.createquestionset();
+            });
         }, this));
 
-        $('#prev').bind("vclick",
-        $.proxy(
-        function () {
-            this.displayQuestion(-1);
+        $('#select').bind("vclick", $.proxy(function () {
+            var ithat = this;
+            ithat.view.switchtab(1, function () {
+                ithat.listtests();
+            });
         }, this));
+
+        //$('#next').bind("vclick",
+        //    $.proxy(
+        //        function() {
+        //            this.displayQuestion(1);
+        //        }, this));
+
+        //$('#prev').bind("vclick",
+        //    $.proxy(
+        //        function() {
+        //            this.displayQuestion(-1);
+        //        }, this));
+
+
+
 
         $('#submit').bind("vclick",
-        $.proxy(
-        function () {
-            this.answerQuestion();
-        }, this));
+            $.proxy(
+                function() {
+                    this.answerQuestion();
+                }, this));
 
-        $("#answer-box").keypress(function (event) {
+        $("#answer-box").keypress(function(event) {
             if (event.which == 13) {
                 that.answerQuestion();
                 $('#mainbody').css('position', '');
@@ -173,25 +384,21 @@ Questionnaire.prototype = {
 
         $('#show-answer').bind("vclick",
             $.proxy(
-            function () {
-                this.toggleAnswer();
-            }, this));
-
- 
-
-
-
+                function() {
+                    this.toggleAnswer();
+                }, this));
 
 
     },
 
 
 
-    toggleAnswer: function () {
+    toggleAnswer: function() {
 
 
-        if ($('#correct-answer').html() != '') {
-            $('#correct-answer').html('');
+        if (this.isAnswerDisplayed == true) {           
+            this.view.DisplayCorrectAnswer('');
+            this.isAnswerDisplayed = false;
 
         } else {
             var answers = this.questionset[this.currentQuestionIdx].answer;
@@ -201,102 +408,87 @@ Questionnaire.prototype = {
             if (this.questionset[this.currentQuestionIdx].type != 0) {
                 while (idx < answers.length) {
 
-                    correctAnswer += answers[idx] + ' ';
+                    correctAnswer += answers[idx];
+
+                    if (idx < answers.length - 1)
+                        correctAnswer += ',';
                     idx++;
                 }
             } else {
-                correctAnswer = this.questionset[this.currentQuestionIdx].answer;
+                correctAnswer = this.questionset[this.currentQuestionIdx].constAnswers;
             }
-
-            $('#correct-answer').html(correctAnswer);
+             
+            this.view.DisplayCorrectAnswer(correctAnswer);
+            
+            this.isAnswerDisplayed = true;
         }
-
 
 
     },
 
-    switchtab: function (tabidx) {
-
-       
-        var panels = new Panels();
-
-        if (tabidx == 0) {
-         
-            panels.masterShowTab(1);
-          
-            $("#answer-block").removeClass("hidePanel").addClass("displayPanel");
-
-            this.createquestionset();
-       
-        } else {
-
-        
-            panels.masterShowTab(2);
-         
-            $("#answer-block").removeClass("displayPanel").addClass("hidePanel");
-            this.listtests();
-
-        }
+    listtests: function() {
+        this.view.createCatList(this.testcategories, this.processSelect, this);
     },
 
-    listtests: function () {
-    
-        
-        var cats = '';
-        var selectEvents = [];
-        var idx = 0;
-        while (idx < this.testcategories.length) {
-            if (this.testcategories[idx] !== undefined) {
-                cats += '<a id= "s' + idx + '" href="index.html" data-role="button" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">' + this.testcategories[idx] + '</span></span></a>';
+    answerQuestion: function() {
 
-                selectEvents.push({ key: 's' + idx, value: this.testcategories[idx] });
-            }
-            idx++;
-        }
-        this.ancUtils.addlinks(selectEvents, this.processSelect, this);
-        $('#categories').html(cats);
-    },
-
-    answerQuestion: function () {
-        var answer = $('#answer-box').val();
+        var answer = this.view.GetAnswer();
 
         //get question type
         var type = this.questionset[this.currentQuestionIdx].type;
 
         switch (type) {
-            case 0: // standard question
-                this.getScoreBasic(answer);
-                break;
-            case 1: // select single answer from possible answers      
-                this.getScoreBasic($("input[name*=radio-choice]:checked").val());
-                break;
-            case 2: // image question
+        case 0:
+// standard question
+            this.getScoreBasic(answer);
+            break;
+        case 1:
+// select single answer from possible answers      
+            this.getScoreBasic($("input[name*=radio-choice]:checked").val());
+            break;
+        case 2:
+// image question
 
-                break;
-            case 3: // multiple answers
-                this.getScoreMultiAnswer(answer);
-                break;
-            case 4: // multiple answers
-                this.getScoreOrderedMultiAnswer(answer);
-                break;
-
+            break;
+        case 3:
+// multiple answers
+            this.getScoreMultiAnswer(answer);
+            break;
+        case 4:
+// multiple answers
+            this.getScoreOrderedMultiAnswer(answer);
+            break;
         }
 
-        //perc-correct
-        $('#perc-correct').html(this.score);
+        this.questionset[this.currentQuestionIdx].score = this.questionscore;
+
+
+        var idx = 0;
+        var working = 0;
+        while (idx < this.questionset.length) {
+            working += this.questionset[idx].score;
+            idx++;
+        }
+
+
+        this.score = Math.floor(((100 / (this.questionset.length * 100)) * working));
+
+        this.view.DisplayScore(this.questionscore, this.score);
+
 
     },
 
-    getScoreBasic: function (answer) {
+    getScoreBasic: function(answer) {
         // record our answer
-
 
 
         this.answerset[this.currentQuestionIdx] = answer;
 
         //recalculate score
         var idx = 0;
-        this.score = 0;
+
+        this.questionscore = 0;
+
         while (idx < this.answerset.length) {
 
             var tpAnswer = '';
@@ -308,26 +500,24 @@ Questionnaire.prototype = {
                 tpAnswer = this.questionset[idx].answer;
             }
 
-         //   tpAnswer = $.trim(String(tpAnswer));
-
-         //   tpQuestion = $.trim(String(this.answerset[idx]));
-
             if (this.performMatch(tpAnswer, this.answerset[idx])) {
-                this.score++;
+                this.questionscore++;
             }
             idx++;
         }
 
-        // express as percentage
-        this.score = Math.floor(((100 / this.answerset.length) * this.score)) + '%';
+
+        this.questionscore = Math.floor(((100 / this.answerset.length) * this.questionscore));
+
+
     },
 
-    performMatch: function (answer, solution) {
+    performMatch: function(answer, solution) {
 
-        answer = String(answer).toLowerCase();;
-        solution = String(solution).toLowerCase();;
-
-
+        answer = String(answer).toLowerCase();
+        ;
+        solution = String(solution).toLowerCase();
+        ;
 
 
         if ($.trim(answer) == $.trim(solution)) {
@@ -337,20 +527,23 @@ Questionnaire.prototype = {
         }
     },
 
-    getScoreMultiAnswer: function (answer) {
+
+
+
+    getScoreMultiAnswer: function(answer) {
 
         // get all answers
         // make list of remaining questions that havent been answered correctly
         // make list of answers that are right
-        var content = this.questionset[this.currentQuestionIdx].question;
+      //  var content = this.questionset[this.currentQuestionIdx].question;
         var remainingAnswers = [];
         var answers = this.questionset[this.currentQuestionIdx].answer;
         var originalAnswers = this.questionset[this.currentQuestionIdx].constAnswers;
         var idx = 0;
 
         while (idx < answers.length) {
-        
-            if (this.performMatch(answers[idx],answer)) {
+
+            if (this.performMatch(answers[idx], answer)) {
                 this.currentQuestionState.push(answer);
             } else {
                 remainingAnswers.push(answers[idx]);
@@ -360,111 +553,113 @@ Questionnaire.prototype = {
 
         this.questionset[this.currentQuestionIdx].answer = remainingAnswers;
 
-        var answersofar ='<\BR>' + 'Progress so far: '+ '<\BR>' + this.questionset[this.currentQuestionIdx].answer.length + '<\BR>';
+        this.questionscore = Math.floor(((100 / originalAnswers.length) * this.currentQuestionState.length));
 
-        idx = 0;
-        while (idx < this.currentQuestionState.length) {
-
-            answersofar += this.currentQuestionState[idx] + ' ';
-
-            idx++;
-        }
-
-        this.score = Math.floor(((100 / originalAnswers.length) * this.currentQuestionState.length)) + '%';
-        $('#answer-box').val('');
-        $('#mainbody').html(content);
-        $('#answer-so-far').html(answersofar);
+        this.view.updateBoxs(this.currentQuestionState, this.questionset[this.currentQuestionIdx].answer, this.questionset[this.currentQuestionIdx].question,'');
     },
 
-    getScoreOrderedMultiAnswer: function (answer) {
+    getScoreOrderedMultiAnswer: function(answer) {
 
         // get all answers
         // make list of remaining questions that havent been answered correctly
         // make list of answers that are right
-        var content = this.questionset[this.currentQuestionIdx].question;
+      //  var content = this.questionset[this.currentQuestionIdx].question;
 
         var answers = this.questionset[this.currentQuestionIdx].answer;
         var originalAnswers = this.questionset[this.currentQuestionIdx].constAnswers;
-        var idx = 0;
+     //   var idx = 0;
         var remainingAnswers = answers;
 
 
-      //  if ($.trim(answers[0]) == $.trim(answer)) {
-        if (this.performMatch(answers[0],answer)) {
+        //  if ($.trim(answers[0]) == $.trim(answer)) {
+        if (this.performMatch(answers[0], answer)) {
             this.currentQuestionState.push(answer);
             remainingAnswers.splice(0, 1);
         }
 
         this.questionset[this.currentQuestionIdx].answer = remainingAnswers;
 
-        var answersofar = '<\BR>' + 'Progress so far: ' + '<\BR>' + this.questionset[this.currentQuestionIdx].answer.length + '<\BR>';
+      //  var answersofar = '<\BR>' + 'Progress so far: ' + '<\BR>' + this.questionset[this.currentQuestionIdx].answer.length + '<\BR>';
 
-        idx = 0;
-        while (idx < this.currentQuestionState.length) {
+     //   idx = 0;
+      //  while (idx < this.currentQuestionState.length) {
 
-            answersofar += this.currentQuestionState[idx] + ' ';
+     //       answersofar += this.currentQuestionState[idx] + ' ';
 
-            idx++;
-        }
+      //      idx++;
+      //  }
 
-        this.score = Math.floor(((100 / originalAnswers.length) * this.currentQuestionState.length)) + '%';
-        $('#answer-box').val('');
-        $('#mainbody').html(content);
-        $('#answer-so-far').html(answersofar);
+        this.questionscore = Math.floor(((100 / originalAnswers.length) * this.currentQuestionState.length));
+
+
+    //    $('#answer-box').val('');
+    //    $('#mainbody').html(content);
+     //   $('#answer-so-far').html(answersofar);
+        
+
+        this.view.updateBoxs(this.currentQuestionState, this.questionset[this.currentQuestionIdx].answer, this.questionset[this.currentQuestionIdx].question, '');
     },
 
-    processSelect: function (cat) {
-       
-        this.selectedcategory = cat;
-        this.switchtab(0);
-        $('#title').html(cat);
+    processSelect: function(cat) {
 
+        var ithat = this;
 
+        ithat.selectedcategory = cat;
+
+        ithat.view.switchtab(0, function () {
+            ithat.createquestionset();
+        });
+                 
+        ithat.view.setTitle(cat);
     },
 
-    createquestionset: function () {
+    createquestionset: function() {
         //0 standard type
         //
         this.writelog('cqs');
-        
+
         $('#mainbody').html('');
         $('#perc-correct').html('');
+        $('#question-score').html('');
         $('#answer-so-far').html('');
-        var finished = function (result) {
+
+
+
+        var finished = function(result) {
             //     var headersection = '';
             var rows = result.split('\x0A');
             var idx = 1;
             this.questionset = [];
             this.answerset = [];
-            
+
             try {
-                
 
-            while (idx < rows.length) {
-               
-              //  this.writelog(idx);
-                
-                var cols = this.getColumns(rows[idx]);
-                                         
-                if (cols[0] == this.selectedcategory) {
 
-                    var questionType = 0; // default option
+                while (idx < rows.length) {
 
-                    // questions with multiple answers
-                    if (cols.length > 3) {
+                    //  this.writelog(idx);
 
-                        var colIdx = 2;
-                        var answer = []; // this can get over written
-                        var constAnswers = []; // to use a permanent answer collection
+                    var cols = this.getColumns(rows[idx]);
 
-                        while (colIdx < cols.length) {
-                            answer.push(cols[colIdx]);
-                            constAnswers.push(cols[colIdx]);
-                            colIdx++;
-                        }
+                    if (cols[0] == this.selectedcategory) {
 
-                        if (colIdx > 2) {                                                      
-                            switch ($.trim(answer[0])) {
+                        var questionType = 0; // default option
+
+                        // questions with multiple answers
+                        if (cols.length > 3) {
+
+                            var colIdx = 2;
+                            var answer = []; // this can get over written
+                            var constAnswers = []; // to use a permanent answer collection
+
+                            while (colIdx < cols.length) {
+                                answer.push(cols[colIdx]);
+                                constAnswers.push(cols[colIdx]);
+                                colIdx++;
+                            }
+
+                            if (colIdx > 2) {
+                                switch ($.trim(answer[0])) {
                                 case 'MA':
                                     questionType = 3; // multi answer
                                     break;
@@ -474,158 +669,114 @@ Questionnaire.prototype = {
                                 default:
                                     questionType = 1; //question is multiple choice
                                     break;
+                                }
                             }
-                        }
 
-                        // questiontype is multiple choice
-                        if (questionType != 1) {
-                            answer.splice(0, 1);
-                            constAnswers.splice(0, 1);
-                        }
-                        else {
+                            // questiontype is multiple choice
+                            if (questionType != 1) {
+                                answer.splice(0, 1);
+                                constAnswers.splice(0, 1);
+                            } else {
+                                this.answerset.push('');
+
+                            }
+
+
+                            this.questionset.push({ question: cols[1], answer: answer, type: questionType, constAnswers: constAnswers, score: 0 });
+                        } else {
+
+                            questionType = (cols[1].indexOf(".jpg") !== -1) ? 2 : questionType;
+
+                            this.questionset.push({ question: cols[1], answer: cols[2], type: questionType, constAnswers: cols[2], score: 0 });
                             this.answerset.push('');
-
                         }
-
-
-                        this.questionset.push({ question: cols[1], answer: answer, type: questionType, constAnswers: constAnswers });
                     }
-                    else {
 
-                        questionType = (cols[1].indexOf(".jpg") !== -1) ? 2 : questionType;
 
-                        this.questionset.push({ question: cols[1], answer: cols[2], type: questionType });
-                        this.answerset.push('');
-                    }
+                    idx++;
                 }
-                
-               
 
-                idx++;
-                }
-                
-            this.displayQuestion(0);
+                this.displayQuestion(0);
 
 
-
-            } catch (e) {
+            } catch(e) {
                 $('#debug').html('exc' + e);
             }
 
 
         };
 
+
         $.ajax({
-            url: 'questionnaire/Questions/questions.csv',
+            url: this.tests[3],
             data: "query=search_terms",
             success: $.proxy(finished, this)
         });
     },
 
-
-
-
-    displayQuestion: function (pos) {
-        var content = '';
+    displayQuestion: function(pos) {
+   
         this.currentQuestionState = [];
-        // if (this.currentQuestionIdx == 0 && pos == -1 ) pos = 0;
-
-        this.writelog('dq'+pos);
+        
+        this.writelog('dq' + pos);
 
         switch (pos) {
-            case 1:
-                if (this.questionset.length - 1 > this.currentQuestionIdx)
-                    this.currentQuestionIdx++;
-                break;
-            case -1:
-                if (this.currentQuestionIdx > 0)
-                    this.currentQuestionIdx--;
-                break;
-            default:
-                this.currentQuestionIdx = 0;
+        case 1:
+            if (this.questionset.length - 1 > this.currentQuestionIdx)
+                this.currentQuestionIdx++;
+            break;
+        case -1:
+            if (this.currentQuestionIdx > 0)
+                this.currentQuestionIdx--;
+            break;
+        default:
+            this.currentQuestionIdx = 0;
         }
 
+      //  $('#answer-so-far').html('');
 
-
+        //updateAnswerSoFar
+        this.view.updateAnswerSoFar('');
 
         if (this.questionset !== undefined && this.questionset.length > 0) {
-            var items = this.questionset[this.currentQuestionIdx].answer;
             var type = this.questionset[this.currentQuestionIdx].type;
 
-            //$('#mainbody').html(content);
+            this.questionset[this.currentQuestionIdx].answer = this.questionset[this.currentQuestionIdx].constAnswers;
+
+            this.view.DisplayScore('0');
+            
+            this.questionscore = 0;
 
             switch (type) {
-                case 0:
-                    $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
-                    content = this.questionset[this.currentQuestionIdx].question;
-                    $("#answer").removeClass("hidePanel").addClass("displayPanel");
-
-                    $('#answer-box').val(this.answerset[this.currentQuestionIdx]);
-                    break;
-                case 1:
-                    $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
-                    $("#answer").removeClass("displayPanel").addClass("hidePanel");
-
-                    //need to check if we have an answer saved for this question 
-                    //which should be stored in the form of an index
-                    //we can do a simple comparison against that.
-                    var idx = 2;
-                    content = '<div id="rqs"><fieldset id = "t1" data-role="controlgroup"><legend>' + this.questionset[this.currentQuestionIdx].question + '</legend>';
-                    while (idx <= items.length) {
-                        var chkid = 'radio-choice-' + idx;
-                        if (idx == parseInt(this.answerset[this.currentQuestionIdx]) + 1)
-                            content += '<input type="radio" name="radio-choice" id="' + chkid + '" value="' + (idx - 1) + '" checked="checked" /><label for="' + chkid + '">' + items[idx - 1] + '</label>';
-                        else
-                            content += '<input type="radio" name="radio-choice" id="' + chkid + '" value="' + (idx - 1) + '" /><label for="' + chkid + '">' + items[idx - 1] + '</label>';
-                        idx++;
-                    }
-                    content += '</fieldset></div>';
-
-                    break;
-                case 2:
-                    $('#answer-box').val(this.answerset[this.currentQuestionIdx]);
-                    $("#imgPanel").removeClass("hidePanel").addClass("displayPanel");
-                    $("#sourceid").attr("src", this.questionset[this.currentQuestionIdx].question);
-                    break;
-
-                case 3:
-                    content = this.questionset[this.currentQuestionIdx].question + '<\BR>' + '';
-                    $("#answer").removeClass("hidePanel").addClass("displayPanel");
-
-                    $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
-
-                    break;
-                case 4:
-                    content = this.questionset[this.currentQuestionIdx].question + '<\BR>' + '';
-                    $("#answer").removeClass("hidePanel").addClass("displayPanel");
-
-                    $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
-
-                    break;
-
-
+            case 0:                
+                this.view.displayStandardQuestion(this.questionset[this.currentQuestionIdx].question,this.answerset[this.currentQuestionIdx]);
+                break;
+            case 1:               
+                this.view.displayMultipleChoice(this.questionset[this.currentQuestionIdx].question, this.questionset[this.currentQuestionIdx].constAnswers, parseInt(this.answerset[this.currentQuestionIdx]) + 1);
+                break;
+            case 2:               
+                this.view.displayImageQuestion(this.questionset[this.currentQuestionIdx].question, this.answerset[this.currentQuestionIdx]);                
+                break;
+            case 3:// multi answer
+                this.view.displayMultiAnswerQuestion(this.questionset[this.currentQuestionIdx].question);
+                break;
+            case 4:// multi ordered answer
+                this.view.displayMultiAnswerQuestion(this.questionset[this.currentQuestionIdx].question);
+                break;
             }
-
-            $('#current-question').html(this.currentQuestionIdx + 1 + ' of ' + this.questionset.length);
-        }
-        else {
-            content = 'no questions';
-            $("#answer").removeClass("displayPanel").addClass("hidePanel");
+            this.view.updateCurrentQuestionLabel(this.currentQuestionIdx + 1, this.questionset.length);
+            
+        } else {
+            this.view.displayNoQuestion();
         }
 
 
-
-
-
-
-        $('#mainbody').html(content);
+      //  $('#mainbody').html(content);
         //how long did it take to work out i needed to call this - on a containing div not the content!!
         $("#rqs").trigger('create');
 
     }
-
-
-}
+};
 
 
 
