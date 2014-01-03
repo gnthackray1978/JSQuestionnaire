@@ -12,19 +12,20 @@ var QView = function () {
 
 
 QView.prototype = {
-    DisplayScore: function(questionScore, overallScore) {        
+    DisplayScore: function (questionScore, overallScore) {
         $('#question-score').html(questionScore + '%');
-        
-        if(overallScore!= undefined)
+
+        if (overallScore != undefined)
             $('#perc-correct').html(overallScore + '%');
     },
-    GetAnswer:function() {
+    GetAnswer: function () {
         return $('#answer-box').val();
     },
-    DisplayCorrectAnswer: function(answer) {
+    DisplayCorrectAnswer: function (answer) {
         $('#correct-answer').html(answer);
     },
-    switchtab: function (tabidx,tab1) {
+   
+    switchtab: function (tabidx, tab1) {
 
 
         var panels = new Panels();
@@ -34,25 +35,52 @@ QView.prototype = {
             panels.masterShowTab(1);
 
             $("#answer-block").removeClass("hidePanel").addClass("displayPanel");
+            $("#score-nav").removeClass("hidePanel").addClass("displayPanel");
+            $("#question-nav").removeClass("hidePanel").addClass("displayPanel");
+            $("#test-sel").addClass("hidePanel").removeClass("displayPanel"); 
 
             tab1();
-            
-            
 
-        } else {
+
+
+        }
+
+        if (tabidx == 1) {
 
 
             panels.masterShowTab(2);
 
-            $("#answer-block").removeClass("displayPanel").addClass("hidePanel");
+            $("#answer-block").removeClass("hidePanel").addClass("displayPanel");
+            $("#score-nav").addClass("hidePanel").removeClass("displayPanel");
+            $("#question-nav").addClass("hidePanel").removeClass("displayPanel");
+            $("#test-sel").removeClass("hidePanel").addClass("displayPanel"); 
             
+
+
             tab1();
-         //   this.listtests();
+            //   this.listtests(); test-sel
 
         }
+
+        if (tabidx == 2) {
+
+
+            panels.masterShowTab(3);
+
+            $("#answer-block").removeClass("hidePanel").addClass("displayPanel");
+            $("#score-nav").addClass("hidePanel").removeClass("displayPanel");
+            $("#question-nav").addClass("hidePanel").removeClass("displayPanel");
+            $("#test-sel").addClass("displayPanel").removeClass("hidePanel"); 
+
+
+            tab1();
+            //   this.listtests();
+
+        }
+
     },
     createCatList: function (catList, processSelectFunc, context) {
-        
+
         var cats = '';
         var selectEvents = [];
         var idx = 0;
@@ -65,11 +93,31 @@ QView.prototype = {
             idx++;
         }
         this.ancUtils.addlinks(selectEvents, processSelectFunc, context);
-        
+
         $('#categories').html(cats);
     },
-    updateBoxs: function (currentQuestionState, answer, content,answerBox) {
-        
+
+
+    createCSVList: function (catList, processSelectFunc, context) {
+
+        var cats = '';
+        var selectEvents = [];
+        var idx = 0;
+        while (idx < catList.length) {
+            if (catList[idx] !== undefined) {
+                cats += '<a id= "s' + idx + '" href="index.html" data-role="button" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">' + catList[idx] + '</span></span></a>';
+
+                selectEvents.push({ key: 's' + idx, value: catList[idx] });
+            }
+            idx++;
+        }
+        this.ancUtils.addlinks(selectEvents, processSelectFunc, context);
+
+        $('#csv-list').html(cats);
+    },
+
+    updateBoxs: function (currentQuestionState, answer, content, answerBox) {
+
 
         // answer = this.questionset[this.currentQuestionIdx].answer.length
 
@@ -87,29 +135,29 @@ QView.prototype = {
 
             idx++;
         }
-      
+
 
 
 
         $('#answer-box').val(answerBox);
 
-        $('#mainbody').html(content);//question box
-        
+        $('#mainbody').html(content); //question box
+
 
         $('#answer-so-far').html(answersofar);
     },
     displayStandardQuestion: function (question, answer) {
-        
+
         $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
-         
+
         $("#answer").removeClass("hidePanel").addClass("displayPanel");
 
         $('#answer-box').val(answer);
-        
+
         $('#mainbody').html(question);
-    },    
+    },
     displayMultipleChoice: function (question, constAnswers, selectionIdx) {
-        
+
         $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
         $("#answer").removeClass("displayPanel").addClass("hidePanel");
 
@@ -127,60 +175,118 @@ QView.prototype = {
             idx++;
         }
         content += '</fieldset></div>';
-        
+
         $('#mainbody').html(content);
     },
     displayImageQuestion: function (question, answerSet) {
-        
+
         $('#answer-box').val(answerSet);
         $("#imgPanel").removeClass("hidePanel").addClass("displayPanel");
         $("#sourceid").attr("src", question);
         //multi answer   
     },
-    displayMultiAnswerQuestion: function (question) {             
-        $("#answer").removeClass("hidePanel").addClass("displayPanel");
-        $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");        
-        $('#mainbody').html(question);        
-        //multi answer   
-    },
-    displaySortedMultiAnswerQuestion: function (question) {        
+    displayMultiAnswerQuestion: function (question) {
         $("#answer").removeClass("hidePanel").addClass("displayPanel");
         $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
         $('#mainbody').html(question);
         //multi answer   
     },
-    updateCurrentQuestionLabel: function(currentQuestion, totalQuestions) {
-        $('#current-question').html(currentQuestion + ' of ' + totalQuestions);        
+    displaySortedMultiAnswerQuestion: function (question) {
+        $("#answer").removeClass("hidePanel").addClass("displayPanel");
+        $("#imgPanel").removeClass("displayPanel").addClass("hidePanel");
+        $('#mainbody').html(question);
+        //multi answer   
     },
-    displayNoQuestion: function() {   
+    updateCurrentQuestionLabel: function (currentQuestion, totalQuestions) {
+        $('#current-question').html(currentQuestion + ' of ' + totalQuestions);
+    },
+    displayNoQuestion: function () {
         $("#answer").removeClass("displayPanel").addClass("hidePanel");
         $('#mainbody').html('no questions');
     },
-    updateAnswerSoFar: function(answerSoFar) {   
+    updateAnswerSoFar: function (answerSoFar) {
         $('#answer-so-far').html(answerSoFar);
     },
-    setTitle: function(title) {   
+    setTitle: function (title) {
         $('#title').html(title);
     },
-    bindPrevQuestionEvt:function(callback, context) {
-        
-        $('#next').bind("vclick",
-            $.proxy(
-                function () {
-                    callback(-1);
-                }, context));
+    
+    setCSV: function (title) {
+       // $('#title').html(title);
     },
     
-    bindNextQuestionEvt:function(callback, context) {
-        
-        $('#next').bind("vclick",
-            $.proxy(
-                function () {
-                    callback(1);
-                }, context));
+    bindPrevQuestionEvt: function (callback, context) {
+
+        var myArray = [-1];
+        $('#prev').bind("vclick", function () { callback.apply(context, myArray); });
+
+    },
+
+    bindNextQuestionEvt: function (callback, context) {
+
+        var myArray = [1];
+        $('#next').bind("vclick", function () { callback.apply(context, myArray); });
+
+    },
+    
+
+
+
+    
+    bindSubmitEvt: function (callback, context) {
+        $('#submit').bind("vclick",function() { callback.apply(context); });
+
+    },
+    
+    bindAnswerButtonPress: function (callback, context) {
+        $("#answer-box").keypress(function (event) {
+            if (event.which == 13) {
+                callback.apply(context);
+                $('#mainbody').css('position', '');
+                $('#mainbody').css('bottom', '');
+
+            }
+        });
+    },
+
+    bindCorrectAnswerButtonPress: function (callback, context) {
+
+        $('#show-answer').bind("vclick", function() { callback.apply(context); });
+    },
+
+
+    bindSelectTestBtn: function (callback, context) {//context.listtests();
+
+        $('#select').bind("vclick", function () {
+            context.view.switchtab(1, function () { });
+            callback.apply(context);
+        }
+        );
+    },
+
+    bindMainSelectBtn: function (callback, context) {//context.listtests();
+
+        $('#main').bind("vclick", function () {
+            context.view.switchtab(0, function () { });
+            callback.apply(context);
+        }
+        );
+    },
+    bindCatBtn: function (callback, context) {//context.listtests();
+        $('#cats').bind("vclick", function () {
+            context.view.switchtab(1, function () { });
+            callback.apply(context);
+        }
+        );              
+    },
+    bindCsvBtn: function (callback, context) {//context.listtests();
+
+        $('#csvs').bind("vclick", function () {
+            context.view.switchtab(2, function () { });
+            callback.apply(context);
+        }
+        );
     }
-
-
 
 
 };
@@ -217,6 +323,7 @@ var Questionnaire = function () {
 
 
     this.selectedcategory = '';
+    this.selectedCSV = 3;
     this.testcategories = [];
     this.questionset = [];
     this.answerset = [];
@@ -234,13 +341,32 @@ var Questionnaire = function () {
     
     this.tests = [];
 
-    this.tests.push('questionnaire/Questions/aspnet.csv');
-    this.tests.push('questionnaire/Questions/c_sharp.csv');
-    this.tests.push('questionnaire/Questions/javascript.csv');
-    this.tests.push('questionnaire/Questions/oop.csv');
-    this.tests.push('questionnaire/Questions/samples.csv');
+    this.tests.push({ key: 'aspnet' ,value: 'questionnaire/Questions/aspnet.csv' });
+    this.tests.push({ key: 'c_sharp', value: 'questionnaire/Questions/c_sharp.csv' });
+    this.tests.push({ key: 'javascript', value: 'questionnaire/Questions/javascript.csv' });
+    this.tests.push({ key: 'oop', value: 'questionnaire/Questions/oop.csv' });
+    this.tests.push({ key: 'samples', value: 'questionnaire/Questions/samples.csv' });
 
-    
+
+
+
+    this.view.bindNextQuestionEvt(this.displayQuestion, this);
+
+    this.view.bindPrevQuestionEvt(this.displayQuestion, this);
+     
+    this.view.bindSubmitEvt(this.answerQuestion, this);
+ 
+    this.view.bindAnswerButtonPress(this.answerQuestion, this);
+
+    this.view.bindCorrectAnswerButtonPress(this.toggleAnswer, this);
+
+    this.view.bindSelectTestBtn(this.listtests, this);
+
+    this.view.bindMainSelectBtn(this.createquestionset, this);
+
+    this.view.bindCatBtn(this.listtests, this);
+
+    this.view.bindCsvBtn(this.listcsvs, this);
 
 
 };
@@ -303,20 +429,12 @@ Questionnaire.prototype = {
 
     init: function() {
 
-        var that = this;
 
-
-        //        $('#answer-box').on('focus click tap vclick', function (event) {
-        //            event.stopImmediatePropagation();
-        //            event.preventDefault();
-
-        //            $('#answer-box').blur();
-        //        });
-
-
+        // load the selected csv file
+        
         var finished = function(result) {
             
-            this.testcategories = this.getTestCategories(result.split('\x0A'),0);
+            this.testcategories = this.getTestCategories(result.split('\x0A'),1);
 
             if (this.testcategories.length > 0 && this.testcategories[0] !== undefined) {
 
@@ -331,66 +449,26 @@ Questionnaire.prototype = {
 
 
         $.ajax({
-            url: this.tests[3],
+            url: this.tests[this.selectedCSV].value,
             data: "query=search_terms",
             success: $.proxy(finished, this)
         });
-
-        $('#main').bind("vclick", $.proxy(function () {
-
-            var ithat = this;
-            ithat.view.switchtab(0, function () {
-                ithat.createquestionset();
-            });
-        }, this));
-
-        $('#select').bind("vclick", $.proxy(function () {
-            var ithat = this;
-            ithat.view.switchtab(1, function () {
-                ithat.listtests();
-            });
-        }, this));
-
-        //$('#next').bind("vclick",
-        //    $.proxy(
-        //        function() {
-        //            this.displayQuestion(1);
-        //        }, this));
-
-        //$('#prev').bind("vclick",
-        //    $.proxy(
-        //        function() {
-        //            this.displayQuestion(-1);
-        //        }, this));
-
-
-
-
-        $('#submit').bind("vclick",
-            $.proxy(
-                function() {
-                    this.answerQuestion();
-                }, this));
-
-        $("#answer-box").keypress(function(event) {
-            if (event.which == 13) {
-                that.answerQuestion();
-                $('#mainbody').css('position', '');
-                $('#mainbody').css('bottom', '');
-
-            }
-
-        });
-
-        $('#show-answer').bind("vclick",
-            $.proxy(
-                function() {
-                    this.toggleAnswer();
-                }, this));
-
-
+ 
     },
 
+    listcsvs: function () {
+
+        var idx = 0;
+        var displayCSV = [];
+        
+        while (idx < this.tests.length) {
+
+            displayCSV.push(this.tests[idx].key);
+            idx++;
+        }
+
+        this.view.createCSVList(displayCSV, this.processTestSelect, this);
+    },
 
 
     toggleAnswer: function() {
@@ -426,7 +504,9 @@ Questionnaire.prototype = {
 
     },
 
-    listtests: function() {
+    listtests: function () {
+        
+
         this.view.createCatList(this.testcategories, this.processSelect, this);
     },
 
@@ -515,9 +595,9 @@ Questionnaire.prototype = {
     performMatch: function(answer, solution) {
 
         answer = String(answer).toLowerCase();
-        ;
+        
         solution = String(solution).toLowerCase();
-        ;
+        
 
 
         if ($.trim(answer) == $.trim(solution)) {
@@ -526,9 +606,6 @@ Questionnaire.prototype = {
             return false;
         }
     },
-
-
-
 
     getScoreMultiAnswer: function(answer) {
 
@@ -560,18 +637,11 @@ Questionnaire.prototype = {
 
     getScoreOrderedMultiAnswer: function(answer) {
 
-        // get all answers
-        // make list of remaining questions that havent been answered correctly
-        // make list of answers that are right
-      //  var content = this.questionset[this.currentQuestionIdx].question;
-
         var answers = this.questionset[this.currentQuestionIdx].answer;
         var originalAnswers = this.questionset[this.currentQuestionIdx].constAnswers;
-     //   var idx = 0;
+
         var remainingAnswers = answers;
 
-
-        //  if ($.trim(answers[0]) == $.trim(answer)) {
         if (this.performMatch(answers[0], answer)) {
             this.currentQuestionState.push(answer);
             remainingAnswers.splice(0, 1);
@@ -579,23 +649,7 @@ Questionnaire.prototype = {
 
         this.questionset[this.currentQuestionIdx].answer = remainingAnswers;
 
-      //  var answersofar = '<\BR>' + 'Progress so far: ' + '<\BR>' + this.questionset[this.currentQuestionIdx].answer.length + '<\BR>';
-
-     //   idx = 0;
-      //  while (idx < this.currentQuestionState.length) {
-
-     //       answersofar += this.currentQuestionState[idx] + ' ';
-
-      //      idx++;
-      //  }
-
         this.questionscore = Math.floor(((100 / originalAnswers.length) * this.currentQuestionState.length));
-
-
-    //    $('#answer-box').val('');
-    //    $('#mainbody').html(content);
-     //   $('#answer-so-far').html(answersofar);
-        
 
         this.view.updateBoxs(this.currentQuestionState, this.questionset[this.currentQuestionIdx].answer, this.questionset[this.currentQuestionIdx].question, '');
     },
@@ -612,6 +666,30 @@ Questionnaire.prototype = {
                  
         ithat.view.setTitle(cat);
     },
+
+    processTestSelect: function (cat) {
+
+        var ithat = this;
+
+       // ithat.selectedCSV = cat;
+
+        var idx = 0;
+       
+
+        while (idx < this.tests.length) {
+
+            if (this.tests[idx].key == cat)
+                this.selectedCSV = idx;
+            idx++;
+        }
+
+        this.view.switchtab(1, function () {
+            ithat.createquestionset();
+        });
+
+        this.view.setCSV(cat);
+    },
+
 
     createquestionset: function() {
         //0 standard type
@@ -641,14 +719,14 @@ Questionnaire.prototype = {
 
                     var cols = this.getColumns(rows[idx]);
 
-                    if (cols[0] == this.selectedcategory) {
+                    if (cols[1] == this.selectedcategory) {
 
                         var questionType = 0; // default option
 
                         // questions with multiple answers
-                        if (cols.length > 3) {
+                        if (cols.length > 4) {
 
-                            var colIdx = 2;
+                            var colIdx = 3;
                             var answer = []; // this can get over written
                             var constAnswers = []; // to use a permanent answer collection
 
@@ -658,7 +736,7 @@ Questionnaire.prototype = {
                                 colIdx++;
                             }
 
-                            if (colIdx > 2) {
+                            if (colIdx > 3) {
                                 switch ($.trim(answer[0])) {
                                 case 'MA':
                                     questionType = 3; // multi answer
@@ -682,12 +760,12 @@ Questionnaire.prototype = {
                             }
 
 
-                            this.questionset.push({ question: cols[1], answer: answer, type: questionType, constAnswers: constAnswers, score: 0 });
+                            this.questionset.push({ question: cols[2], answer: answer, type: questionType, constAnswers: constAnswers, score: 0 });
                         } else {
 
                             questionType = (cols[1].indexOf(".jpg") !== -1) ? 2 : questionType;
 
-                            this.questionset.push({ question: cols[1], answer: cols[2], type: questionType, constAnswers: cols[2], score: 0 });
+                            this.questionset.push({ question: cols[2], answer: cols[3], type: questionType, constAnswers: cols[3], score: 0 });
                             this.answerset.push('');
                         }
                     }
@@ -708,7 +786,7 @@ Questionnaire.prototype = {
 
 
         $.ajax({
-            url: this.tests[3],
+            url: this.tests[this.selectedCSV].value,
             data: "query=search_terms",
             success: $.proxy(finished, this)
         });
@@ -777,26 +855,3 @@ Questionnaire.prototype = {
 
     }
 };
-
-
-
-
-
-
-
-
-
-            //<fieldset data-role="controlgroup">
-            //	<legend>Choose a pet:</legend>
-            //     	<input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked" />
-            //     	<label for="radio-choice-1">Cat</label>
-
-            //     	<input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  />
-            //     	<label for="radio-choice-2">Dog</label>
-
-            //     	<input type="radio" name="radio-choice" id="radio-choice-3" value="choice-3"  />
-            //     	<label for="radio-choice-3">Hamster</label>
-
-            //     	<input type="radio" name="radio-choice" id="radio-choice-4" value="choice-4"  />
-            //     	<label for="radio-choice-4">Lizard</label>
-            //</fieldset>

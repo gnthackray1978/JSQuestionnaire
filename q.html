@@ -73,29 +73,30 @@
     <div id="panelB" class = "hidePanel">
         <div id ='categories' class="ui-grid-solo"></div>
     </div>
-     
+    <div id="panelC" class = "hidePanel">
+        <div id ='csv-list' class="ui-grid-solo"></div>
+    </div>
      
     <div data-role="footer" data-id="foo1" data-position="fixed">
         
         <div id = 'answer-block' class = "displayPanel">
-            
-
-          
-            <div class="ui-grid-b">
-         
+                      
+            <div id = "score-nav"class="ui-grid-b" class = "displayPanel">         
                 <div class="ui-block-a"><div id = 'question-score' class = "info-bar">100%</div></div>
                 <div class="ui-block-b"><div id = 'perc-correct' class = "info-bar">100%</div></div>
                 <div class="ui-block-c"><div id = 'current-question' class = "info-bar">1 of 10</div></div>
             </div>
-            
-
-        
-
-
+                   
             <div data-role="navbar">
-                <div class="ui-grid-a">
+                
+                <div id = "question-nav" class="ui-grid-a" class = "displayPanel">
                     <div id = 'prev' class="ui-block-a"><button type="button" data-theme="c">Previous</button></div>
                     <div id = 'next' class="ui-block-b"><button type="button" data-theme="c">Next</button></div>	   
+                </div>
+                
+                <div id = "test-sel" class="ui-grid-a" class = "hidePanel">
+                    <div id = 'cats' class="ui-block-a"><button type="button" data-theme="c">Cats</button></div>
+                    <div id = 'csvs' class="ui-block-b"><button type="button" data-theme="c">CSVs</button></div>	   
                 </div>
 
             </div><!-- /navbar -->
