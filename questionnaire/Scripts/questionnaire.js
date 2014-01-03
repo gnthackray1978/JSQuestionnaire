@@ -426,15 +426,11 @@ Questionnaire.prototype = {
         return tp;
     },
 
-
-    init: function() {
-
-
-        // load the selected csv file
+    getCats: function () {
         
-        var finished = function(result) {
-            
-            this.testcategories = this.getTestCategories(result.split('\x0A'),1);
+        var finished = function (result) {
+
+            this.testcategories = this.getTestCategories(result.split('\x0A'), 1);
 
             if (this.testcategories.length > 0 && this.testcategories[0] !== undefined) {
 
@@ -442,7 +438,7 @@ Questionnaire.prototype = {
 
                 //  this.createquestionset();
 
-            }  
+            }
 
 
         };
@@ -453,7 +449,16 @@ Questionnaire.prototype = {
             data: "query=search_terms",
             success: $.proxy(finished, this)
         });
- 
+    },
+    
+    init: function() {
+
+
+        // load the selected csv file
+
+        this.getCats();
+
+
     },
 
     listcsvs: function () {
@@ -684,6 +689,7 @@ Questionnaire.prototype = {
         }
 
         this.view.switchtab(1, function () {
+            ithat.getCats();
             ithat.createquestionset();
         });
 
