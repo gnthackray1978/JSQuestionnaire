@@ -1,23 +1,5 @@
-category,question,answer
-c# keywords,Name all keywords?,MA,abstract,as,base,break,case,catch,checked,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,,interface,internal,is,lock,namespace,new,null,object,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while
-c# types,Name all types?,MA,bool,byte,char,decimal,double,float,int,long,sbyte,short,string,uint,ulong,ushort
-c# contextual keywords, Name all contextual keywords,MA,add,alias,ascending,async,await,descending,dynamic,from,get,global,group,into,join,let,orderby,partial,remove,select,set,value,var,where,yield
-JS UI Events,Name all JS UI Events?,MA,abort,error,load,resize,scroll,select,unload
-JS Mouse Events, Name all JS Mouse Events?, MA, click, dblclick,mousedown, mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup
-JS Keyboard Events,Name all JS Keyboard Events?, MA, keydown,keypress,keyup
-JS Focus Events, Name all JS Focus Events?, MA, blur, focus
-JS Event, Name all DOM L2 Events, MA, change, reset, submit
-javascript,What does “1″+2+4 evaluate to?,2,7,124,16
-javascript,What about 5 + 4 + “3″?,1,93,543,12
-Solid,What are the solid principles,MA,Single responsibility principle,Open/Close Principle,Liskov Substitution Principle,Interface Segregation Principle,Dependency Injection
-Design,What is SRP?,a class should have only a single responsibility
-Design,What is OCP?,software entities should be open for extension but closed for modification
-Design,What is LSP?,objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program
-Design,What is ISP?,many client specific interfaces are better than one general purpose interface
-Design,What is DIP?,one should depend upon abstractions do not depend upon concretions
-Operators, What is this truefalse?true case:false case, ternary operator
-Patterns, Name the 3 types of pattern,MA, Creational, Behavioural, Structural
-Patterns, Name the 7 main creational patterns, MA , Singleton, Factory, Factory Method, Abstract Factory, Builder, Prototype, Object Pool
-Patterns, Name the 11 main Behavioural patterns, MA, Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Momento, Observer, Strategy, Template Method, Visitor, Null Object
-Patterns, Name the 6 main Structural patterns, MA, Adapter, Bridge, Composite, Decorator, Flyweight, Proxy
-AspNet, List the page life cycle,MA,Page request,Start,Initialization,Load,Postback event handling,Rendering,Unload
+parent,category,question,answer,,,,,,,,,,,
+,c#,What is c#?,c#
+c#,keywords,Name all keywords?,MA,abstract,as,base,break,case,catch,checked,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,,interface,internal,is,lock,namespace,new,null,object,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while
+c#,types,Name all types?,MA,bool,byte,char,decimal,double,float,int,long,sbyte,short,string,uint,ulong,ushort
+c#,contextual keywords, Name all contextual keywords,MA,add,alias,ascending,async,await,descending,dynamic,from,get,global,group,into,join,let,orderby,partial,remove,select,set,value,var,where,yield

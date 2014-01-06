@@ -426,29 +426,40 @@ Questionnaire.prototype = {
         return tp;
     },
 
-    getCats: function () {
+    getCats: function (callselect, action) {
         
-        var finished = function (result) {
+     
 
-            this.testcategories = this.getTestCategories(result.split('\x0A'), 1);
+        try {
+            var finished = function (result) {
 
-            if (this.testcategories.length > 0 && this.testcategories[0] !== undefined) {
+                this.testcategories = this.getTestCategories(result.split('\x0A'), 1);
 
-                this.processSelect(this.testcategories[0]);
+                if (this.testcategories.length > 0 && this.testcategories[0] !== undefined) {
 
-                //  this.createquestionset();
+                    if (callselect) {
+                        this.processSelect(this.testcategories[0]);
+                    }
 
-            }
+                    //  this.createquestionset();
+
+                }
+
+                action();
+            };            
+
+            $.ajax({
+                url: this.tests[this.selectedCSV].value,
+                data: "query=search_terms",
+                success: $.proxy(finished, this)
+            });
+            
 
 
-        };
+        } catch(e) {
 
+        } 
 
-        $.ajax({
-            url: this.tests[this.selectedCSV].value,
-            data: "query=search_terms",
-            success: $.proxy(finished, this)
-        });
     },
     
     init: function() {
@@ -456,7 +467,9 @@ Questionnaire.prototype = {
 
         // load the selected csv file
 
-        this.getCats();
+        this.getCats(true, function () {
+            
+        });
 
 
     },
@@ -681,19 +694,25 @@ Questionnaire.prototype = {
         var idx = 0;
        
 
-        while (idx < this.tests.length) {
+        while (idx < ithat.tests.length) {
 
-            if (this.tests[idx].key == cat)
-                this.selectedCSV = idx;
+            if (ithat.tests[idx].key == cat)
+                ithat.selectedCSV = idx;
             idx++;
         }
 
-        this.view.switchtab(1, function () {
-            ithat.getCats();
-            ithat.createquestionset();
+        console.log(cat + ' ' + ithat.selectedCSV);
+
+        ithat.view.switchtab(1, function () {
+
+            ithat.getCats(false, function () {
+                ithat.view.createCatList(ithat.testcategories, ithat.processSelect, ithat);    
+            });
+            
+            //    ithat.createquestionset();
         });
 
-        this.view.setCSV(cat);
+        ithat.view.setCSV(cat);
     },
 
 
