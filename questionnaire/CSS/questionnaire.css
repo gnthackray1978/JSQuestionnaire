@@ -2,6 +2,23 @@
 }
 
 
+.alt-cAnswer2 {
+    color: red;  
+    font-weight: bold;
+}
+
+.alt-cAnswer1 {
+    color: royalblue;
+    font-size: 22px;
+}
+
+
+#correct-answer {
+    
+    word-wrap: break-word;
+}
+
+
 #question {
 
     height: 50px;

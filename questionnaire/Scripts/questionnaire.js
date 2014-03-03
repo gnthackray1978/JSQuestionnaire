@@ -504,7 +504,16 @@ Questionnaire.prototype = {
             if (this.questionset[this.currentQuestionIdx].type != 0) {
                 while (idx < answers.length) {
 
-                    correctAnswer += answers[idx];
+                    var formatClass = '';
+                    
+
+                    if (idx % 2 == 0) {
+                        formatClass = 'alt-cAnswer1';
+                    } else {
+                        formatClass = 'alt-cAnswer2';
+                    }
+                    
+                    correctAnswer += '<span class ="'+  formatClass+ '">'+answers[idx] + '</span>';
 
                     if (idx < answers.length - 1)
                         correctAnswer += ',';
