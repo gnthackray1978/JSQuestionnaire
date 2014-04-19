@@ -10,5 +10,6 @@ OOP,Patterns, Name the 3 types of pattern,MA, Creational, Behavioural, Structura
 OOP,Patterns, Name the 7 main creational patterns,MA, Singleton, Factory, Factory Method, Abstract Factory, Builder, Prototype, Object Pool,,,,
 OOP,Patterns, Name the 11 main Behavioural patterns,MA, Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Momento, Observer, Strategy, Template Method, Visitor, Null Object
 OOP,Patterns, Name the 6 main Structural patterns,MA, Adapter, Bridge, Composite, Decorator, Flyweight, Proxy,,,,,
-OOP,Inheritance,What can a abstract base class do that a interface cant?,MA,Method Implementations,Access modifier public ,Access modifier private ,Access modifier static ,Access modifier virtual ,Access modifier abstract  ,Access modifier sealed,,,,,Inheritance,What can a interface do that a abstract base class cant?,MA,Method Signatures,Full abstraction,Multiple Inheritance,,,,,,,,
+OOP,Inheritance,What can a abstract base class do that a interface cant?,MA,Method Implementations,Access modifier public ,Access modifier private ,Access modifier static ,Access modifier virtual ,Access modifier abstract  ,Access modifier sealed,,,,
 OOP,Inheritance,What is the semantic diff. Between abstract b class and interface?,interfaces can do stuff abstract is stuff,,,,,,,,,,,
+OOP,Inheritance,What can a interface do that a abstract base class cant?,MA,Method Signatures,Full abstraction,Multiple Inheritance,,,,,,,,

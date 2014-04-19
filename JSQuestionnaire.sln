@@ -3,34 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "JSQuestionnaire(1)", "http://localhost:19165", "{D051023E-EAD3-41A0-A8E1-4282F4ACE233}"
-	ProjectSection(WebsiteProperties) = preProject
-		UseIISExpress = "true"
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_19165"
-		Debug.AspNetCompiler.PhysicalPath = "..\JSQuestionnaire\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_19165\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_19165"
-		Release.AspNetCompiler.PhysicalPath = "..\JSQuestionnaire\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_19165\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		SlnRelativePath = "..\JSQuestionnaire\"
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSQuestions", "JSQuestions\JSQuestions.csproj", "{2579674E-8A36-426C-8598-D8639F725A9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D051023E-EAD3-41A0-A8E1-4282F4ACE233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D051023E-EAD3-41A0-A8E1-4282F4ACE233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2579674E-8A36-426C-8598-D8639F725A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2579674E-8A36-426C-8598-D8639F725A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2579674E-8A36-426C-8598-D8639F725A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2579674E-8A36-426C-8598-D8639F725A9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
