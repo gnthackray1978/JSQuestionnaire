@@ -2,8 +2,7 @@ C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\JSQuestions.dll.con
 C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\JSQuestions.dll
 C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\JSQuestions.pdb
 C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\Newtonsoft.Json.dll
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\System.Net.Http.Formatting.dll
 C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\Newtonsoft.Json.xml
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\System.Net.Http.Formatting.xml
 C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\obj\Debug\JSQuestions.dll
 C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\obj\Debug\JSQuestions.pdb
+C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\obj\Debug\JSQuestions.csprojResolveAssemblyReference.cache
