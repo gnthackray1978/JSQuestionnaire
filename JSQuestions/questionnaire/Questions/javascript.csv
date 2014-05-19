@@ -1,0 +1,9 @@
+parent,category,question,answer
+,JS,What is JS?,JS
+JS,JS UI Events,Name all JS UI Events?,MA,abort,error,load,resize,scroll,select,unload
+JS,JS Mouse Events, Name all JS Mouse Events?, MA, click, dblclick,mousedown, mouseenter,mouseleave,mousemove,mouseout,mouseover,mouseup
+JS,JS Keyboard Events,Name all JS Keyboard Events?, MA, keydown,keypress,keyup
+JS,JS Focus Events, Name all JS Focus Events?, MA, blur, focus
+JS,JS Event, Name all DOM L2 Events, MA, change, reset, submit
+JS,javascript,What does “1″+2+4 evaluate to?,2,7,124,16
+JS,javascript,What about 5 + 4 + “3″?,1,93,543,12
