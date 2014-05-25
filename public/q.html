@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>SImple Questions</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link href="questionnaire/CSS/jquery.mobile.css" rel="stylesheet" type="text/css"/>
+    
+    <link href="questionnaire/CSS/questionnaire.css" rel="stylesheet" type="text/css" />
+
+	<script src="questionnaire/Scripts/jquery/jquery.js" type="text/javascript"></script>
+
+	<script src="questionnaire/Scripts/jquery/jquery.mobile.js" type="text/javascript"></script>
+
+	<script src="questionnaire/Scripts/extensions.js" type="text/javascript"></script>
+
+  
+	<script src="questionnaire/Scripts/util_func.js" type="text/javascript"></script>
+    <script src="questionnaire/Scripts/QuestionMaker.js"></script>
+    
+
+    <script src="questionnaire/Scripts/QModel.js"></script>
+    <script src="questionnaire/Scripts/QView.js"></script>
+    <script src="questionnaire/Scripts/questionnaire.js" type="text/javascript"></script>
+</head> 
+<body> 
+
+<div data-role="page">
+   
+    <div data-role="header">
+  
+        <div id ='debug'></div>
+        <div class="ui-grid-b">
+            <h2 id = 'title' class="ui-block-a">test</h2>
+             
+        </div> 
+
+        <div data-role="controlgroup" data-type="horizontal" >
+            <a id = 'main' data-theme="a"  data-role="button" style="margin-left: 7px; width: 80px" >Main</a>
+            <a id = 'select' data-theme="a"  data-role="button" style="width: 85px" >Questions</a>
+            <a id = 'submit' data-theme="a"  data-role="button" >Answer</a>
+            <a id = 'show-answer' data-theme="a"  data-role="button" >Give up</a>
+        </div>
+
+        
+
+    </div> 
+
+        
+    <div id="panelA" class = "displayPanel">
+        
+        
+        
+
+        <div id ="question" class="ui-grid-solo">
+            <div id ='mainbody' class="ui-block-a">some crap</div>        
+            <div id ='imgPanel' class = "displayPanel">
+                <img id = 'sourceid' src="https://c9.io/gnthackray1978/jsquestionnaire/workspace/question_images/G13_EnvironTree_Icon.jpg" alt="tree" width="42" height="42">
+            </div>       
+        </div>
+
+        <div class="ui-grid-solo">
+            <div id ='answer' class="ui-block-a">   
+                <input id = 'answer-box' type="text" name="name"  value="" />
+            </div>
+        </div>
+        <div class="ui-grid-solo">
+            <div id ='answer-so-far' class="ui-block-a" ></div>
+        </div>
+
+        <div class="ui-grid-solo">
+            <div id ='correct-answer' class="ui-block-a" ></div>
+        </div>
+    </div> 
+        
+    <div id="panelB" class = "hidePanel">
+        <div id ='categories' class="ui-grid-solo"></div>
+    </div>
+    <div id="panelC" class = "hidePanel">
+        <div id ='csv-list' class="ui-grid-solo"></div>
+    </div>
+     
+    <div data-role="footer" data-id="foo1" data-position="fixed">
+        
+        <div id = 'answer-block' class = "displayPanel">
+                      
+            <div id = "score-nav"class="ui-grid-b" class = "displayPanel">         
+                <div class="ui-block-a"><div id = 'question-score' class = "info-bar">100%</div></div>
+                <div class="ui-block-b"><div id = 'perc-correct' class = "info-bar">100%</div></div>
+                <div class="ui-block-c"><div id = 'current-question' class = "info-bar">1 of 10</div></div>
+            </div>
+                   
+            <div data-role="navbar">
+                
+                <div id = "question-nav" class="ui-grid-a" class = "displayPanel">
+                    <div id = 'prev' class="ui-block-a"><button type="button" data-theme="c">Previous</button></div>
+                    <div id = 'next' class="ui-block-b"><button type="button" data-theme="c">Next</button></div>	   
+                </div>
+                
+                <div id = "test-sel" class="ui-grid-a" class = "hidePanel">
+                    <div id = 'cats' class="ui-block-a"><button type="button" data-theme="c">Cats</button></div>
+                    <div id = 'csvs' class="ui-block-b"><button type="button" data-theme="c">CSVs</button></div>	   
+                </div>
+
+            </div><!-- /navbar -->
+
+        </div>
+
+        
+        
+
+    </div><!-- /footer -->
+
+</div>
+
+</body>
+</html>
