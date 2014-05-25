@@ -1,8 +1,0 @@
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\JSQuestions.dll.config
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\JSQuestions.dll
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\JSQuestions.pdb
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\Newtonsoft.Json.dll
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\bin\Newtonsoft.Json.xml
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\obj\Debug\JSQuestions.dll
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\obj\Debug\JSQuestions.pdb
-C:\Users\George\Source\Repos\JSQuestionnaire\JSQuestions\obj\Debug\JSQuestions.csprojResolveAssemblyReference.cache

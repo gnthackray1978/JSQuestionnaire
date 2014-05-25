@@ -101,7 +101,14 @@ AncUtils.prototype = {
     addlinks: function (dupeEvents, func, context) {
         for (var i = 0; i < dupeEvents.length; i++) {
 
-            $("#" + dupeEvents[i].key).die("click");
+           // if ($("#" + dupeEvents[i].key).length >0) {
+
+            try {
+                
+          
+                $("#" + dupeEvents[i].key).off("click", "**");
+                
+       //     $("#" + dupeEvents[i].key).die("click");
 
             //console.log('creating event for : ' + dupeEvents[i].key);
 
@@ -109,8 +116,7 @@ AncUtils.prototype = {
                 //probably not efficient to do this multiple times
                 //this can be a future optimization.
 
-
-                $("#" + dupeEvents[idx].key).live("click", $.proxy(function () {
+                $( "body" ).on( "click", "#" + dupeEvents[idx].key,  $.proxy(function () {
                     var va = val;
 
                     //console.log('clicked with : ' + va);
@@ -121,12 +127,36 @@ AncUtils.prototype = {
                         func.call(context);
 
                     return false;
-                }, context));
+                }, context) );
+            
+                
+                //$("#" + dupeEvents[idx].key).live("click", $.proxy(function () {
+                //    var va = val;
+
+                //    //console.log('clicked with : ' + va);
+
+                //    if (va !== null)
+                //        func.call(context, va);
+                //    else
+                //        func.call(context);
+
+                //    return false;
+                //}, context));
+                
+
+
 
             };
 
             somecrap(i, dupeEvents[i].value);
 
+
+            } catch (e) {
+                console.log('couldnt find: ' + "#" + dupeEvents[i].key);
+            }
+            //} else {
+            //    
+            //}
         }
 
     },
@@ -507,6 +537,8 @@ Panels.prototype = {
             $("#panelB").removeClass("displayPanel").addClass("hidePanel");
             $("#panelC").removeClass("displayPanel").addClass("hidePanel");
             $("#panelD").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelE").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelF").removeClass("displayPanel").addClass("hidePanel");
         }
 
         if (panel == 2) {
@@ -514,6 +546,8 @@ Panels.prototype = {
             $("#panelB").removeClass("hidePanel").addClass("displayPanel");
             $("#panelC").removeClass("displayPanel").addClass("hidePanel");
             $("#panelD").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelE").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelF").removeClass("displayPanel").addClass("hidePanel");
         }
 
         if (panel == 3) {
@@ -522,6 +556,8 @@ Panels.prototype = {
             $("#panelB").removeClass("displayPanel").addClass("hidePanel");
             $("#panelC").removeClass("hidePanel").addClass("displayPanel");
             $("#panelD").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelE").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelF").removeClass("displayPanel").addClass("hidePanel");
         }
 
         if (panel == 4) {
@@ -530,6 +566,32 @@ Panels.prototype = {
             $("#panelB").removeClass("displayPanel").addClass("hidePanel");
             $("#panelC").removeClass("displayPanel").addClass("hidePanel");
             $("#panelD").removeClass("hidePanel").addClass("displayPanel");
+            $("#panelE").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelF").removeClass("displayPanel").addClass("hidePanel");
         }
+        
+        if (panel == 5) {
+
+            $("#panelA").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelB").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelC").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelD").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelE").removeClass("hidePanel").addClass("displayPanel");
+            $("#panelF").removeClass("displayPanel").addClass("hidePanel");
+        }
+
+        if (panel == 6) {
+
+            $("#panelA").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelB").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelC").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelD").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelE").removeClass("displayPanel").addClass("hidePanel");
+            $("#panelF").removeClass("hidePanel").addClass("displayPanel");
+        }
+
+
+
+
     }
 }

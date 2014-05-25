@@ -1,5 +1,0 @@
-parent,category,question,answer,,,,,,,,,,,
-,c#,What is c#?,c#
-c#,keywords,Name all keywords?,MA,abstract,as,base,break,case,catch,checked,class,const,continue,default,delegate,do,else,enum,event,explicit,extern,false,finally,fixed,for,foreach,goto,if,implicit,in,,interface,internal,is,lock,namespace,new,null,object,operator,out,override,params,private,protected,public,readonly,ref,return,sealed,sizeof,stackalloc,static,struct,switch,this,throw,true,try,typeof,unchecked,unsafe,using,virtual,void,volatile,while
-c#,types,Name all types?,MA,bool,byte,char,decimal,double,float,int,long,sbyte,short,string,uint,ulong,ushort
-c#,contextual keywords, Name all contextual keywords,MA,add,alias,ascending,async,await,descending,dynamic,from,get,global,group,into,join,let,orderby,partial,remove,select,set,value,var,where,yield

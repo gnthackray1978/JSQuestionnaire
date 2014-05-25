@@ -53,17 +53,79 @@ var Questionnaire = function () {
 
     this.view.bindSelectTestBtn(this.listtests, this);
 
-    this.view.bindMainSelectBtn(this.createquestionset, this);
+
 
     this.view.bindCatBtn(this.listtests, this);
 
     this.view.bindCsvBtn(this.listcsvs, this);
 
 
+
+    this.view.bindLoginEvt(this.login, this);
+    
+
+
+    this.view.bindSelectTestEvt(this.selectTest, this);
+
+    this.view.bindTestHistorytEvt(this.testHistory, this);
+
+
+    this.view.bindMainSelectBtn(this.endTest, this);//end test
+    this.view.bindStartTestEvt(this.startTest, this);    
+
+
 };
 
 
 Questionnaire.prototype = {
+    
+    endTest: function () {
+
+
+
+        var ithat = this;
+
+        ithat.view.switchHeaderContent(1, function () {
+
+        });
+
+    },
+
+    startTest: function () {
+        
+
+
+        var ithat = this;
+
+        ithat.view.switchHeaderContent(0, function () {
+
+        });
+        
+    },
+    
+    login: function () {
+        var ithat = this;
+        
+        ithat.view.switchtab(3, function () {
+          
+        });
+    },
+
+    selectTest: function () {
+        var ithat = this;
+
+        ithat.view.switchtab(4, function () {
+
+        });
+    },
+    testHistory: function () {
+        var ithat = this;
+
+        ithat.view.switchtab(5, function () {
+
+        });
+    },
+    
     writelog: function (message) {
         //  $('#debug').append(message+'.');
     },
@@ -233,6 +295,8 @@ Questionnaire.prototype = {
         this.view.createCatList(this.testcategories, this.processSelect, this);
     },
 
+    // scoring and answering functionality
+
     answerQuestion: function () {
 
         var answer = this.view.GetAnswer();
@@ -310,10 +374,11 @@ Questionnaire.prototype = {
         //    } else {
         //        tpAnswer = this.questionset[idx].answer;
         //    }
-        var scoreAmount = 100 / this.questionset.length;
-        
+
+        var scoreFactor = 100/this.answerset.length;
+
         if (this.performMatch(answer, this.questionset[this.currentQuestionIdx].answer)) {
-            this.questionscore = scoreAmount;
+            this.questionscore = scoreFactor;
         } else {
             this.questionscore = 0;
         }
@@ -390,6 +455,8 @@ Questionnaire.prototype = {
         this.view.updateBoxs(this.currentQuestionState, this.questionset[this.currentQuestionIdx].answer, this.questionset[this.currentQuestionIdx].question, '');
     },
 
+
+
     processSelect: function (cat) {
 
         var ithat = this;
@@ -402,6 +469,7 @@ Questionnaire.prototype = {
 
         ithat.view.setTitle(cat);
     },
+
 
     processTestSelect: function (cat) {
 
@@ -599,4 +667,8 @@ Questionnaire.prototype = {
         $("#rqs").trigger('create');
 
     }
+
+
+
+
 };

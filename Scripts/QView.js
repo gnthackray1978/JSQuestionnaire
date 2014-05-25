@@ -73,7 +73,24 @@ QView.prototype = {
 
         }
 
+
+        if (tabidx == 3) {
+            panels.masterShowTab(4); 
+            tab1();          
+        }
+
+        if (tabidx == 4) {
+            panels.masterShowTab(5);
+            tab1();
+        }
+        if (tabidx == 5) {
+            panels.masterShowTab(6);
+            tab1();
+        }
     },
+    
+
+
     createCatList: function (catList, processSelectFunc, context) {
 
         var cats = '';
@@ -87,9 +104,13 @@ QView.prototype = {
             }
             idx++;
         }
+        
+
+         $('#categories').html(cats);       
+
         this.ancUtils.addlinks(selectEvents, processSelectFunc, context);
 
-        $('#categories').html(cats);
+
     },
 
 
@@ -192,6 +213,26 @@ QView.prototype = {
         $('#mainbody').html(question);
         //multi answer   
     },
+    
+    switchHeaderContent: function (type, switchFunc) {
+        
+
+        // main header
+        if (type == 0) {            
+            $("#header-answer-block").removeClass("hidePanel").addClass("displayPanel");
+            $("#header-home-block").removeClass("displayPanel").addClass("hidePanel");
+            switchFunc();
+        }
+        
+        // answer mode header
+        if (type == 1) {
+            $("#header-answer-block").removeClass("displayPanel").addClass("hidePanel");
+            $("#header-home-block").removeClass("hidePanel").addClass("displayPanel");           
+            switchFunc();
+        }            
+    },
+  
+
     updateCurrentQuestionLabel: function (currentQuestion, totalQuestions) {
         $('#current-question').html(currentQuestion + ' of ' + totalQuestions);
     },
@@ -208,6 +249,39 @@ QView.prototype = {
 
     setCSV: function (title) {
         // $('#title').html(title);
+    },
+
+
+
+
+    bindLoginEvt: function (callback, context) {
+        var myArray = [1];
+        $('#login').bind("vclick", function () { callback.apply(context, myArray); });
+    },
+    bindStartTestEvt: function (callback, context) {
+        var myArray = [1];
+        $('#taketest').bind("vclick", function () { callback.apply(context, myArray); });
+    },
+    bindSelectTestEvt: function (callback, context) {
+        var myArray = [1];
+        $('#choosetest').bind("vclick", function () { callback.apply(context, myArray); });
+    },
+    bindTestHistorytEvt: function (callback, context) {
+        var myArray = [1];
+        $('#history').bind("vclick", function () { callback.apply(context, myArray); });
+    },
+    bindEndTestEvt: function (callback, context) {
+        var myArray = [1];
+        $('#next').bind("vclick", function () { callback.apply(context, myArray); });
+    },
+
+    bindMainSelectBtn: function (callback, context) {//context.listtests();
+
+        $('#main').bind("vclick", function () {
+          //  context.view.switchtab(0, function () { });
+            callback.apply(context);
+        }
+        );
     },
 
     bindPrevQuestionEvt: function (callback, context) {
@@ -279,14 +353,7 @@ QView.prototype = {
         );
     },
 
-    bindMainSelectBtn: function (callback, context) {//context.listtests();
 
-        $('#main').bind("vclick", function () {
-            context.view.switchtab(0, function () { });
-            callback.apply(context);
-        }
-        );
-    },
     bindCatBtn: function (callback, context) {//context.listtests();
         $('#cats').bind("vclick", function () {
             context.view.switchtab(1, function () { });
