@@ -3,6 +3,8 @@
 // set up ======================================================================
 // get all the tools we need
 var express  = require('express');
+ 
+var http     = require('http');
 var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
@@ -10,6 +12,7 @@ var passport = require('passport');
 var flash 	 = require('connect-flash');
 
 var configDB = require('./config/database.js');
+var configFB = require('./config/auth.js');
 
 
 // configuration ===============================================================
@@ -22,7 +25,19 @@ mongoose.connect(configDB.settings.url, function (err, res) {
 });
  
  
+
+ 
 require('./config/passport')(passport); // pass passport for configuration
+
+var config = {
+  ns: 'thackraynotes',
+  id:  '205401136237103',
+  secret:  'e2bae4f7b2ffa301366c119107df79b1',
+  scope:      'email'
+};
+
+var fbsdk = require('./libs/facebook/facebook.js').init(config);
+
 
 app.configure(function() {
 
@@ -42,22 +57,63 @@ app.configure(function() {
 
 	// required for passport
 	app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+	app.use(express.bodyParser());
+    app.use(express.methodOverride());
 	
 	app.use(passport.initialize());
 	app.use(passport.session()); // persistent login sessions
 	app.use(flash()); // use connect-flash for flash messages stored in session
+	
+	
 	
 	// Make our db accessible to our router
 	app.use(function(req,res,next){
 	 
 		next();
 	});
+	
+	
+	app.use(fbsdk.auth);
+//console.log('fb details');
+//console.log(FB.options);
+//console.log(config.facebookAuth.clientID);
+	//console.log(FB.options.appId);
+	//console.log(FB.options.clientSecret);
+	//console.log(FB.options.callbackURL);
+});
+
+
+/*
+app.all('/', function(req, res) {
+  var facebook = req.facebook;
+  
+  console.log("faceobook", facebook);
+  
+  if (facebook && facebook.signedRequest && facebook.signedRequest.user_id) {
+    facebook.api('me', function(er, me) {
+      res.render('index', {config: config, me: me});
+    });
+  } else {
+    res.redirect(fbsdk.loginURL(fbsdk.canvasURL));
+  }
+  
+  
+});
+*/
+
+//Demo making API calls using App Access Token
+fbsdk.appApi(config.id + '?fields=id,name,canvas_url', function(e, result) {
+  console.log("Got app info using app access token", result);
 });
 
 
 
+
+console.log('routing...');
+
+
 // routes ======================================================================
-require('./app/routes.js')(app,express); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app,passport,express); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
 app.listen(port);

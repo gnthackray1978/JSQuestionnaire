@@ -2,6 +2,7 @@
 var FBHelper = function () {
     //this.facebookReady = null;
     window.fbAsyncInit = this.initFacebook;   
+	 this.urlroot = '..';  
 };
 
 FBHelper.prototype = {
@@ -10,6 +11,7 @@ FBHelper.prototype = {
     initFacebook: function () {
 
        
+	   
         FB.init({ appId: 205401136237103, status: true, cookie: true, xfbml: true, channelUrl: this.urlroot + '/HtmlPages/channel.html' });
 
          
@@ -22,8 +24,10 @@ FBHelper.prototype = {
                  
                 var params = {};
                 params[0] = 'hello';
-                var ancUtils = new AncUtils();
-                ancUtils.twaGetJSON("/TestLogin", params, function (data) {
+              
+			    var fbHelper = new FBHelper();
+			  
+                fbHelper.twaGetJSON("/TestLogin", params, function (data) {
                     $('#usr_nam').html(data);
                 });
            
@@ -95,7 +99,7 @@ FBHelper.prototype = {
             if (window.location.hostname.indexOf("local") == -1)
                 return 'http://www.gnthackray.net';
             else
-                return 'http://local.gnthackray.net:666';
+                return 'http://local.gnthackray.net:8080';
         }
             
     },
@@ -107,10 +111,11 @@ FBHelper.prototype = {
 
         $.ajax({
             url: aburl,
-            dataType: "jsonp",
+            dataType: "json",
             data: paramsArg,
-            success: methodArg,
-            beforeSend: $.proxy(this.addFBToHeader(), this)
+            success: methodArg
+			//,
+            //beforeSend: $.proxy(this.addFBToHeader(), this)
         });
     },
 
@@ -166,7 +171,7 @@ FBHelper.prototype = {
             data: stringy,
             contentType: "application/json",
             dataType: "json",
-            beforeSend: $.proxy(this.addFBToHeader(), this),
+          //  beforeSend: $.proxy(this.addFBToHeader(), this),
             success: successFunc
         });
 
