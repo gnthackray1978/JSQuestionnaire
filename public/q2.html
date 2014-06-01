@@ -6,16 +6,18 @@
     <link href="CSS/questionnaire.css" rel="stylesheet" type="text/css" />
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+	
    	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 	
     <script src="Scripts/extensions.js" type="text/javascript"></script>
-
-
     <script src="Scripts/util_func.js" type="text/javascript"></script>
-    <script src="Scripts/QuestionMaker.js"></script>
-
-
+    <script src="Scripts/QuestionMaker.js"></script> 
+	
+	
+	<script src="Scripts/FBHelper.js" type="text/javascript"></script>
+    <script src="Scripts/FBTestHelper.js" type="text/javascript"></script>
+		
     <script src="Scripts/QModel.js"></script>
     <script src="Scripts/QView.js"></script>
     <script src="Scripts/questionnaire.js" type="text/javascript"></script>
@@ -34,8 +36,8 @@
 	
 	
 	<div class="ui-grid-b">
-		<h2 id = 'title' class="ui-block-a">test tewst test</h2>
-          <h2 id = 'username' class="ui-block-b">test tewst test</h2>   
+		<h2 id = 'title' class="ui-block-a">test unknown</h2>
+        <h2 id = 'usr_nam' class="ui-block-b">user unknown</h2>   
     </div> 
 	
     <div id='header-answer-block' class="ui-grid-c displayPanel">
@@ -93,11 +95,12 @@
     
     
     <div id="panelD" class="hidePanel">
-        <a href="/auth/facebook">Log in with Facebook</a>
+        <div id="1"></div>
     </div>
 
     <div id="panelE" class="hidePanel">
         <div>select test</div>
+		<div id='webcategories' class="ui-grid-solo"></div>
     </div>    
     
     <div id="panelF" class="hidePanel">

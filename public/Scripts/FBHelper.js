@@ -51,7 +51,8 @@ FBHelper.prototype = {
 
         var headersection = '';
 		
-        headersection += '<div id="usrinfo" class = "mtrusr">';
+       // headersection += '<div id="usrinfo" class = "mtrusr">';
+		
         headersection += '<div id="fb-root">';
         headersection += '<fb:login-button autologoutlink="true" perms="email,user_birthday,status_update"></fb:login-button>';
         headersection += '</div>';

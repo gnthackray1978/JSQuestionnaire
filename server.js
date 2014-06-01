@@ -21,12 +21,31 @@ mongoose.connect(configDB.settings.url, function (err, res) {
 	console.log ('ERROR connecting to: ' + configD.settings.url + '. ' + err);
   } else {
 	console.log ('Succeeded connected to: ' + configDB.settings.url);
+	 
+	//console.log(mongoose.connection.db.collection); 
+	 
+	mongoose.connection.db.collectionNames(function (err, names) {
+       // console.log(names); // [{ name: 'dbname.myCollection' }]
+		
+    });
+	
+	
+	
+	//var action = function (err, collection) {
+	//	// Locate all the entries using find
+	//	collection.find({}).toArray(function(err, results) {
+	//		
+	//		console.log(results);
+	//	});
+	//	
+	//};
+
+	//mongoose.connection.db.collection('ques', action);
+
+
   }
 });
- 
- 
-
- 
+  
 require('./config/passport')(passport); // pass passport for configuration
 
 var config = {
@@ -37,6 +56,10 @@ var config = {
 };
 
 var fbsdk = require('./libs/facebook/facebook.js').init(config);
+
+var Ques = mongoose.model('ques', configDB.ques);
+
+var Cats = mongoose.model('cats', configDB.cats);
 
 
 app.configure(function() {
@@ -63,12 +86,11 @@ app.configure(function() {
 	app.use(passport.initialize());
 	app.use(passport.session()); // persistent login sessions
 	app.use(flash()); // use connect-flash for flash messages stored in session
-	
-	
-	
+		
 	// Make our db accessible to our router
 	app.use(function(req,res,next){
-	 
+		req.ques = Ques;
+		req.cats = Cats;	 
 		next();
 	});
 	

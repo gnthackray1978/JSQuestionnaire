@@ -2,6 +2,9 @@
 
 var Questionnaire = function () {
 
+
+	this.catsurl ='http://local.gnthackray.net:8080/cats';
+	
     this.view = new QView();
 
     this.is_keyboard = false;
@@ -32,13 +35,7 @@ var Questionnaire = function () {
 
     this.tests = [];
 
-    this.tests.push({ key: 'aspnet', value: 'questionnaire/Questions/aspnet.csv' });
-    this.tests.push({ key: 'c_sharp', value: 'questionnaire/Questions/c_sharp.csv' });
-    this.tests.push({ key: 'javascript', value: 'questionnaire/Questions/javascript.csv' });
-    this.tests.push({ key: 'oop', value: 'questionnaire/Questions/oop.csv' });
-    this.tests.push({ key: 'samples', value: 'questionnaire/Questions/samples.csv' });
-
-
+     
 
 
     this.view.bindNextQuestionEvt(this.displayQuestion, this);
@@ -108,6 +105,8 @@ Questionnaire.prototype = {
         
         ithat.view.switchtab(3, function () {
           
+		  
+		  
         });
     },
 
@@ -118,6 +117,7 @@ Questionnaire.prototype = {
 
         });
     },
+	
     testHistory: function () {
         var ithat = this;
 
@@ -126,6 +126,8 @@ Questionnaire.prototype = {
         });
     },
     
+	
+	
     writelog: function (message) {
         //  $('#debug').append(message+'.');
     },
@@ -143,67 +145,33 @@ Questionnaire.prototype = {
         return cols;
     },
 
-    getTestCategories: function (rows, catColIdx) {
-
-
-        var tp = [];
-
-        var idx = 1;
-        while (idx < rows.length) {
-
-            var cols = this.getColumns(rows[idx]);
-
-            tp.push(cols[catColIdx]);
-            idx++;
-        }
-
-
-        try {
-            var uniqueNames = [];
-
-
-            $.each(tp, function (i, el) {
-
-
-                if ($.inArray(el, uniqueNames) === -1)
-                    uniqueNames.push(el);
-
-
-            });
-
-            tp = uniqueNames;
-        } catch (e) {
-
-        }
-
-        return tp;
-    },
-
-    getCats: function (callselect, action) {
+	
+ 
+	
+	getCats: function (callselect, action) {
 
 
 
         try {
             var finished = function (result) {
-
-                this.testcategories = this.getTestCategories(result.split('\x0A'), 1);
-
-                if (this.testcategories.length > 0 && this.testcategories[0] !== undefined) {
-
-                    if (callselect) {
-                        this.processSelect(this.testcategories[0]);
-                    }
-
-                    //  this.createquestionset();
-
-                }
-
+ 
+				var idx =0;
+				
+				while(idx < result.length){
+					this.testcategories.push({ key: result[idx].setId, value: result[idx].description });
+					idx++;
+				}
+				
+				
+ 
+ 
+				this.view.createCSVList(displayCSV, this.processTestSelect, this);
+				
                 action();
             };
 
             $.ajax({
-                url: this.tests[this.selectedCSV].value,
-                data: "query=search_terms",
+                url: this.catsurl,
                 success: $.proxy(finished, this)
             });
 
@@ -215,6 +183,8 @@ Questionnaire.prototype = {
 
     },
 
+	
+	
     init: function () {
 
 
@@ -241,6 +211,9 @@ Questionnaire.prototype = {
         this.view.createCSVList(displayCSV, this.processTestSelect, this);
     },
 
+	
+	
+	
     hideAnswer: function () {
         this.view.DisplayCorrectAnswer('');
         this.isAnswerDisplayed = false;

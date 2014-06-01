@@ -1,4 +1,4 @@
-module.exports = function(app, passport,express,FB) {
+module.exports = function(app,FB,express) {
 
 
 	app.get('/TestLogin', isLoggedIn, function(req, res) {	 
@@ -19,7 +19,40 @@ module.exports = function(app, passport,express,FB) {
    
 		//res.json(facebook.signedRequest.user_id);			 	 
 	});
-
+	
+	app.get('/ques', function(req, res) {			
+		var db = req.ques;	
+		
+		var catid = req.param("cat");
+		
+		db.find({ category: catid }).exec(function(err, result) {
+			  if (!err) {
+				// handle result
+				console.log (result);		
+				res.json(result);		
+			  } else {
+				console.log (err);
+			  };
+			});
+	});
+	
+	
+	
+	app.get('/cats',  function(req, res) {			
+		var db = req.cats;
+	
+		console.log( req.param("v"));
+	
+		db.find({}).exec(function(err, result) {
+			  if (!err) {
+				// handle result
+				console.log (result);		
+				res.json(result);		
+			  } else {
+				console.log (err);
+			  };
+			});
+	});
 };
 
 // route middleware to make sure a user is logged in
