@@ -121,15 +121,15 @@ QView.prototype = {
         var idx = 0;
         while (idx < catList.length) {
             if (catList[idx] !== undefined) {
-                cats += '<a id= "s' + idx + '" href="index.html" data-role="button" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">' + catList[idx] + '</span></span></a>';
+                cats += '<a id= "s' + idx + '" href="index.html" data-role="button" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">' + catList[idx].value + '</span></span></a>';
 
-                selectEvents.push({ key: 's' + idx, value: catList[idx] });
+                selectEvents.push({ key: 's' + idx, value: catList[idx].key });
             }
             idx++;
         }
         this.ancUtils.addlinks(selectEvents, processSelectFunc, context);
 
-        $('#csv-list').html(cats);
+        $('#webcategories').html(cats);
     },
 
     updateBoxs: function (currentQuestionState, answer, content, answerBox) {
@@ -248,7 +248,7 @@ QView.prototype = {
     },
 
     setCSV: function (title) {
-        // $('#title').html(title);
+         $('#title').html(title);
     },
 
 

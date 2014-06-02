@@ -48,11 +48,6 @@ var Questionnaire = function () {
 
     this.view.bindCorrectAnswerButtonPress(this.toggleAnswer, this);
 
-    this.view.bindSelectTestBtn(this.listtests, this);
-
-
-
-    this.view.bindCatBtn(this.listtests, this);
 
     this.view.bindCsvBtn(this.listcsvs, this);
 
@@ -161,11 +156,8 @@ Questionnaire.prototype = {
 					this.testcategories.push({ key: result[idx].setId, value: result[idx].description });
 					idx++;
 				}
-				
-				
- 
- 
-				this.view.createCSVList(displayCSV, this.processTestSelect, this);
+
+				this.view.createCSVList(this.testcategories, this.processTestSelect, this);
 				
                 action();
             };
@@ -195,20 +187,6 @@ Questionnaire.prototype = {
         });
 
 
-    },
-
-    listcsvs: function () {
-
-        var idx = 0;
-        var displayCSV = [];
-
-        while (idx < this.tests.length) {
-
-            displayCSV.push(this.tests[idx].key);
-            idx++;
-        }
-
-        this.view.createCSVList(displayCSV, this.processTestSelect, this);
     },
 
 	
@@ -448,30 +426,25 @@ Questionnaire.prototype = {
 
         var ithat = this;
 
-        // ithat.selectedCSV = cat;
-
+		ithat.selectedCSV = cat;
+	
         var idx = 0;
+ 
+        while (idx < ithat.testcategories.length) {
 
-
-        while (idx < ithat.tests.length) {
-
-            if (ithat.tests[idx].key == cat)
-                ithat.selectedCSV = idx;
+            if (ithat.testcategories[idx].key == cat)
+                ithat.view.setCSV(ithat.testcategories[idx].value);
             idx++;
         }
 
-        console.log(cat + ' ' + ithat.selectedCSV);
+       // console.log(cat + ' ' + ithat.selectedCSV);
 
-        ithat.view.switchtab(1, function () {
+     //   ithat.view.switchtab(1, function () {
 
-            ithat.getCats(false, function () {
-                ithat.view.createCatList(ithat.testcategories, ithat.processSelect, ithat);
-            });
+            
+       // });
 
-            //    ithat.createquestionset();
-        });
-
-        ithat.view.setCSV(cat);
+        
     },
 
 
