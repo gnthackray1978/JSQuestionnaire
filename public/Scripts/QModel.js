@@ -4,6 +4,8 @@ var Questionnaire = function () {
 
 
 	this.catsurl ='http://local.gnthackray.net:8080/cats';
+	this.qsurl ='http://local.gnthackray.net:8080/ques';
+	
 	
     this.view = new QView();
 
@@ -88,13 +90,23 @@ Questionnaire.prototype = {
 
 
         var ithat = this;
-
-        ithat.view.switchHeaderContent(0, function () {
-
-        });
-        
+		if(ithat.selectedCSV !==''){
+		
+			ithat.resetTest();
+		
+			ithat.view.switchHeaderContent(0, function () {
+				ithat.view.switchtab(0,function(){
+					
+				});
+			});
+        }
     },
     
+	resetTest:function(){
+	
+	},
+	
+	
     login: function () {
         var ithat = this;
         
@@ -543,11 +555,10 @@ Questionnaire.prototype = {
         };
 
 
-        $.ajax({
-            url: this.tests[this.selectedCSV].value,
-            data: "query=search_terms",
-            success: $.proxy(finished, this)
-        });
+       $.ajax({
+			url: this.qsurl + '?cat=' + this.selectedCSV,
+			success: $.proxy(finished, this)
+		});
     },
 
     displayQuestion: function (pos) {
